@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class ScrollViewSnap : MonoBehaviour
 {
+
     ScrollRect _scrollRect = null;
     RectTransform _rect = null;
     GridLayoutGroup _grid = null;
@@ -29,7 +30,7 @@ public class ScrollViewSnap : MonoBehaviour
                 dir = Mathf.Sign(_scrollRect.velocity.x); // 1차원 방향 -1 , 1, 0
                 target.x = (dir * _grid.cellSize.x) + currentPos; // grid.cellSize.x => width
 
-                target.x = Mathf.Clamp(target.x, -1440, 1440); // 이동 최대치
+                target.x = Mathf.Clamp(target.x, -1080, 1080); // 이동 최대치
                 isMove = true;
             }
         }
@@ -48,7 +49,7 @@ public class ScrollViewSnap : MonoBehaviour
             dir = 0;
         }
 
-        print("velocity " + _scrollRect.velocity);
+        // Debug.Log("velocity " + _scrollRect.velocity);
     }
 
     private float GetMouseDelta()
