@@ -29,7 +29,7 @@ public class ScrollViewSnap : MonoBehaviour
             {
                 dir = Mathf.Sign(_scrollRect.velocity.x); // 1차원 방향 -1 , 1, 0
                 target.x = (dir * _grid.cellSize.x) + currentPos; // grid.cellSize.x => width
-
+                // Debug.Log(target.x);
                 target.x = Mathf.Clamp(target.x, -1080, 1080); // 이동 최대치
                 isMove = true;
             }
