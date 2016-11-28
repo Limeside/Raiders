@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class ScrollViewSnap : MonoBehaviour
 {
     [SerializeField] public ScrollRect[] childScrollRect = null;
+    [SerializeField] public GameObject[] childSelected = null;
     [SerializeField] public RectTransform _bar = null;
 
     ScrollRect _scrollRect = null;
@@ -50,7 +51,7 @@ public class ScrollViewSnap : MonoBehaviour
         Vector2 barPos = new Vector2(_rect.localPosition.x / -5, 53.2f);
         Vector2 barTarget = new Vector2(target.x / -5, 53.2f);
 
-        _bar.localPosition = Vector2.Lerp(barPos, barTarget, Time.deltaTime * 10);
+        _bar.localPosition = Vector2.Lerp(barPos, barTarget, Time.deltaTime * 10); // 선택바 이동
 
         if (Vector3.Distance(_rect.localPosition, target) < 5) // 거리가 5보다 작다면 정지
         {
