@@ -27,6 +27,9 @@ public class ScrollViewSnap : MonoBehaviour
     }
 
     void Update() {
+        if (cantMove && _rect.localPosition.x == -720 )
+            return;
+
         _scrollRect.velocity = new Vector2(Input.GetAxisRaw("Mouse X") * GetMouseDelta(), 0);
 
         if (!isMove) {
@@ -82,6 +85,16 @@ public class ScrollViewSnap : MonoBehaviour
         return 0;
     }
 
+    public void MouseOver() {
+        if (!cantMove)
+            cantMove = true;
+    }
+
+    public void MouseOut() {
+        if (cantMove)
+            cantMove = false;
+    }
+
     private Vector2 target = Vector2.zero;
     private Vector2 mouseDown = Vector2.zero;
 
@@ -89,4 +102,5 @@ public class ScrollViewSnap : MonoBehaviour
     private float currentPos = 0;
     private float dir = 0;
 
+    public bool cantMove = false;
 }

@@ -5,8 +5,7 @@ using UnityEngine.UI;
 public class Sidemenu : MonoBehaviour {
 
     [SerializeField] public GridLayoutGroup _grid = null;
-    [SerializeField] public RectTransform[] _panels = null;
-    [SerializeField] public RectTransform _UI = null;
+    [SerializeField] public RectTransform _panel = null;
     [SerializeField] public GameObject _blind = null;
 
     void Awake()
@@ -14,34 +13,26 @@ public class Sidemenu : MonoBehaviour {
         _rect = GetComponent<RectTransform>();
     }
 
-    void Update()
-    {
-        if ( _on)
-        {
-            
-            SidemenuSum();
-        }
-
-    }
-
-    public void CallSidemenu()
-    {
-        if ( !_on)
-        {
-            
+    public void SidemenuButton() {
+        if ( !_on) {
             StopCoroutine("RemoveBlind");
             StartCoroutine("CallBlind");
-            
+
+            StartCoroutine("CallSidemenu");
+            StopCoroutine("Close");
+
             _on = true;
         }
-
     }
 
-    public void CallSetting() {
+    public void SettingButton() {
         if (!_on) {
             StopCoroutine("RemoveBlind");
             StartCoroutine("CallBlind");
-            
+
+            StartCoroutine("CallSetting");
+            StopCoroutine("Close");
+
             _on = true;
         }
     }
@@ -50,20 +41,13 @@ public class Sidemenu : MonoBehaviour {
         if (_on) {
             StopCoroutine("CallBlind");
             StartCoroutine("RemoveBlind");
-            
+
+            StopCoroutine("CallSidemenu");
+            StopCoroutine("CallSetting");
+            StartCoroutine("Close");
+
             _on = false;
         }
-    }
-
-    void SidemenuSum() {
-        Vector2 target1 = new Vector2(-1080f, 0f);
-
-        _panels[0].localPosition = Vector2.Lerp(_panels[0].localPosition, target1, Time.deltaTime * 10.0f);
-
-        Vector2 target2 = new Vector2(360f, 0);
-        _rect.localPosition = Vector2.Lerp(_rect.localPosition, target2, Time.deltaTime * 10.0f);
-        _UI.localPosition = Vector2.Lerp(_UI.localPosition, target2, Time.deltaTime * 10.0f);
-
     }
 
     IEnumerator CallBlind() {
@@ -86,6 +70,42 @@ public class Sidemenu : MonoBehaviour {
         }
 
         _blind.SetActive(false);
+    }
+
+    IEnumerator CallSidemenu() {
+        Vector2 target = new Vector2(360f, 0f);
+
+        while (Mathf.RoundToInt(_rect.localPosition.x) != 360f)
+        {
+            Debug.Log("Sidemenu");
+            _panel.localPosition = Vector2.Lerp(_panel.localPosition, target, Time.deltaTime * 10.0f);
+            _rect.localPosition = Vector2.Lerp(_rect.localPosition, target, Time.deltaTime * 10.0f);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    IEnumerator CallSetting() {
+        Vector2 target = new Vector2(-360f, 0f);
+
+        while (Mathf.RoundToInt(_rect.localPosition.x) != -360f)
+        {
+            Debug.Log("Setting");
+            _panel.localPosition = Vector2.Lerp(_panel.localPosition, target, Time.deltaTime * 10.0f);
+            _rect.localPosition = Vector2.Lerp(_rect.localPosition, target, Time.deltaTime * 10.0f);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    IEnumerator Close() {
+        Vector2 target = new Vector2(0f, 0f);
+
+        while (Mathf.RoundToInt(_rect.localPosition.x) != 0f)
+        {
+            Debug.Log("Close");
+            _panel.localPosition = Vector2.Lerp(_panel.localPosition, target, Time.deltaTime * 10.0f);
+            _rect.localPosition = Vector2.Lerp(_rect.localPosition, target, Time.deltaTime * 10.0f);
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     private RectTransform _rect;
